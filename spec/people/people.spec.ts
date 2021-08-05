@@ -136,7 +136,7 @@ describe('People', () => {
         )
     })
 
-    describe('PUT /pessoas', () => {
+    describe('DELETE /pessoas', () => {
         it('should return 204', () => 
             actorInTheSpotlight().answer(Note.of('person')).then((person:any) =>
                 actorInTheSpotlight().attemptsTo(
