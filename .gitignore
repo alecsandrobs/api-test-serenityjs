@@ -1,6 +1,6 @@
 # files
 package-lock.json
-# .mocharc.yml
+.mocharc.yml
 
 # folders
 node_modules/

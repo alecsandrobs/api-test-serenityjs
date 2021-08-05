@@ -1,7 +1,7 @@
-import 'mocha';
 import { Ensure, equals, isGreaterThan } from '@serenity-js/assertions';
 import { actorCalled, actorInTheSpotlight, AnswersQuestions, Loop, Note, PerformsActivities, Question, TakeNote, Task } from '@serenity-js/core';
 import { DeleteRequest, GetRequest, LastResponse, PostRequest, PutRequest, Send } from '@serenity-js/rest';
+import 'mocha';
 import { hasCreatedStatus, hasNoContentStatus, hasSuccessfullStatus, wasABadRequestStatus, wasNotfoundStatus } from '../support/matchers/httpStatusMatchers';
 import { returnsCorrectSchema } from '../support/matchers/schemaMatchers';
 import { errorNotFoundResponseSchema, errorResponseSchema } from '../support/schema/error';
@@ -12,8 +12,8 @@ describe('People', () => {
 
     before('Clean database', () =>
         actorCalled('Michele').attemptsTo(
-            Send.a(GetRequest.to('/pessoas'))
-        ).then(() =>
+            Send.a(GetRequest.to('/pessoas')))
+        .then(() =>
             actorInTheSpotlight().answer(LastResponse.body()).then(response =>
                 actorInTheSpotlight().attemptsTo(
                     Loop.over(response).to(
@@ -34,7 +34,6 @@ describe('People', () => {
                         email: 'pessoa.serenity@email.com',
                     }
                 )),
-                // Log.the(LastResponse.status(), LastResponse.body()),
                 Ensure.that(LastResponse.status(), hasCreatedStatus),
                 Ensure.that(LastResponse.body(), returnsCorrectSchema(pessoaResponseSchema))
             )
@@ -48,7 +47,6 @@ describe('People', () => {
                         email: 'pessoa.codecept@email.com',
                     }
                 )),
-                // Log.the(LastResponse.status(), LastResponse.body()),
                 Ensure.that(LastResponse.status(), wasABadRequestStatus),
                 Ensure.that(LastResponse.body(), returnsCorrectSchema(errorResponseSchema))
             )    
@@ -59,10 +57,9 @@ describe('People', () => {
         it('should return 200 and all people', () =>
             actorInTheSpotlight().attemptsTo(
                 Send.a(GetRequest.to('/pessoas')),
-                // Log.the(LastResponse.status(), LastResponse.body()),
                 Ensure.that(LastResponse.status(), hasSuccessfullStatus),
-                Ensure.that(LastResponse.body(), returnsCorrectSchema(pessoasResponseSchema))
-            ).then(() =>
+                Ensure.that(LastResponse.body(), returnsCorrectSchema(pessoasResponseSchema)))
+            .then(() =>
                 actorInTheSpotlight().answer(LastResponse.body()).then((response:any) =>
                     actorInTheSpotlight().attemptsTo(
                         Ensure.that(response.length, isGreaterThan(0) as any),
@@ -76,7 +73,6 @@ describe('People', () => {
             actorInTheSpotlight().answer(Note.of('person')).then((person:any) =>
                 actorInTheSpotlight().attemptsTo(
                     Send.a(GetRequest.to(`/pessoas/${person._id}`)),
-                    // Log.the(LastResponse.status(), LastResponse.body()),
                     Ensure.that(LastResponse.status(), hasSuccessfullStatus),
                     Ensure.that(LastResponse.body(), returnsCorrectSchema(pessoaResponseSchema))
                 )
@@ -86,7 +82,6 @@ describe('People', () => {
         it('should return 404 and only one person', () =>
             actorInTheSpotlight().attemptsTo(
                 Send.a(GetRequest.to('/pessoas/987654321')),
-                // Log.the(LastResponse.status(), LastResponse.body()),
                 Ensure.that(LastResponse.status(), wasNotfoundStatus),
                 Ensure.that(LastResponse.body(), returnsCorrectSchema(errorNotFoundResponseSchema))
             )
@@ -97,7 +92,6 @@ describe('People', () => {
         it('should return 200 and the person schema', () => 
             actorInTheSpotlight().answer(Note.of('person')).then((person:any) =>
                 actorInTheSpotlight().attemptsTo(
-                    // Log.the(Note.of('person')),
                     Send.a(PutRequest.to(`/pessoas/${person._id}`).with(
                         {
                             nome: 'Pessoa Editada pelo SerenityJS',
@@ -105,7 +99,6 @@ describe('People', () => {
                             email: 'pessoa.serenity@email.com',
                         }
                     )),
-                    // Log.the(LastResponse.status(), LastResponse.body()),
                     Ensure.that(LastResponse.status(), hasSuccessfullStatus),
                     Ensure.that(LastResponse.body(), returnsCorrectSchema(pessoaResponseSchema))
                 )
@@ -122,7 +115,6 @@ describe('People', () => {
                             email: 'pessoa.serenity@email.com',
                         }
                     )),
-                    // Log.the(LastResponse.status(), LastResponse.body()),
                     Ensure.that(LastResponse.status(), wasABadRequestStatus),
                     Ensure.that(LastResponse.body(), returnsCorrectSchema(errorResponseSchema))
                 )
@@ -138,7 +130,6 @@ describe('People', () => {
                         email: 'pessoa.serenity@email.com',
                     }
                 )),
-                // Log.the(LastResponse.status(), LastResponse.body()),
                 Ensure.that(LastResponse.status(), wasNotfoundStatus),
                 Ensure.that(LastResponse.body(), returnsCorrectSchema(errorNotFoundResponseSchema))
             )
@@ -149,9 +140,7 @@ describe('People', () => {
         it('should return 204', () => 
             actorInTheSpotlight().answer(Note.of('person')).then((person:any) =>
                 actorInTheSpotlight().attemptsTo(
-                    // Log.the(Note.of('person')),
                     Send.a(DeleteRequest.to(`/pessoas/${person._id}`)),
-                    // Log.the(LastResponse.status(), LastResponse.body()),
                     Ensure.that(LastResponse.status(), hasNoContentStatus),
                     Ensure.that(LastResponse.body(), equals('' as any))
                 )
@@ -161,7 +150,6 @@ describe('People', () => {
         it('should return 400 and the error schema', () => 
             actorInTheSpotlight().attemptsTo(
                 Send.a(DeleteRequest.to(`/pessoas/1234567`)),
-                // Log.the(LastResponse.status(), LastResponse.body()),
                 Ensure.that(LastResponse.status(), wasNotfoundStatus),
                 Ensure.that(LastResponse.body(), returnsCorrectSchema(errorNotFoundResponseSchema))
             )
