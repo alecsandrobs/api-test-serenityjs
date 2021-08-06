@@ -39,7 +39,7 @@ describe('People', () => {
             )
         )
         
-        return it('should return 400 and the error schema', () => 
+        it('should return 400 and the error schema', () => 
             actorInTheSpotlight().attemptsTo(
                 Send.a(PostRequest.to('/pessoas').with(
                     {

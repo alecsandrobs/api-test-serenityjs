@@ -2,7 +2,7 @@
   "name": "api-test-serenityjs",
   "version": "1.0.0",
   "description": "API end to end testes with SerenityJS",
-    "scripts": {
+  "scripts": {
     "update": "serenity-bdd update",
     "clean": "rimraf target",
     "test": "failsafe clean test:execute test:report",
@@ -22,16 +22,8 @@
     "mocha",
     "testing"
   ],
-  "author": "Jan Molak <jan.molak@serenity.io>",
+  "author": "alecsandorbs",
   "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/serenity-js/serenity-js-mocha-template/issues"
-  },
-  "homepage": "http://serenity-js.org",
-  "engines": {
-    "node": "^12 || ^14 || ^16",
-    "npm": "^6 || ^7"
-  },
   "dependencies": {
     "@serenity-js/assertions": "^2.29.8",
     "@serenity-js/console-reporter": "^2.29.8",
