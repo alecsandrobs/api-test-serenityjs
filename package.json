@@ -1,9 +1,8 @@
 {
-  "name": "@serenity-js/serenity-js-mocha-template",
+  "name": "api-test-serenityjs",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
+  "description": "API end to end testes with SerenityJS",
+    "scripts": {
     "update": "serenity-bdd update",
     "clean": "rimraf target",
     "test": "failsafe clean test:execute test:report",
